@@ -7,7 +7,7 @@ The transformation steps that happen to encode a message are as follows:
 
 Encryption = PRMLUL<sup>-1</sup>M<sup>-1</sup>R<sup>-1</sup>P<sup>-1</sup>
 
-where P is a plugboard that allowed operators to swap letter signals in pairs; R, M, L are the right, middle, and left rotors (there were 5 to choose from); and U is the reflector (one of three). You might notice that the encryption process is palindromic, allowing operators to type in cyphertext and receive the plaintext message through reverse substitution. 
+where P is a plugboard that allowed operators to swap letter signals in pairs; R, M, L are the right, middle, and left rotors (there were 5 to choose from); and U is the reflector (one of three). You might notice that the encryption process is palindromic, allowing operators to type in ciphertext and receive the plaintext message through reverse substitution. 
 
 I don't use much OOP in my work (nor do I know anything about cryptography!) so I'll make this an object-oriented programming project to practice. There are a few classes to create here:
 
