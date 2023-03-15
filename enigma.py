@@ -39,15 +39,19 @@ class Enigma:
 
         # Pass signal through the machine
         signal = self.KB.forward(letter)
-        signal = self.P.forward(signal)
-        signal = self.R.forward(signal)
-        signal = self.M.forward(signal)
-        signal = self.L.forward(signal)
+        path = [signal, signal]
+
+        for component in [self.P, self.R, self.M, self.L]:
+            signal = component.forward(signal)
+            path.extend([signal, signal])
+
         signal = self.U.reflect(signal)
-        signal = self.L.backward(signal)
-        signal = self.M.backward(signal)
-        signal = self.R.backward(signal)
-        signal = self.P.backward(signal)
+        path.append(signal)
+
+        for component in [self.L, self.M, self.R, self.P]:
+            signal = component.backward(signal)
+            path.extend([signal, signal])
+
         letter = self.KB.backward(signal)
         # print('Your cyphertext is:', letter)
-        return letter
+        return path, letter
