@@ -18,6 +18,8 @@ I don't use much OOP in my work (nor do I know anything about cryptography!) so 
 - an enigma class to string it all together into one object
 
 
+This is off to a good start already. There are more animations to be added, and more functionality to make it more user-friendly. 
+
 # Resources
 
 I'm using this great set of tutorials as a guide and referencing the Wikipedia pages for the enigma machine and the enigma rotor details frequently:
