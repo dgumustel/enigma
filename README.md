@@ -18,7 +18,11 @@ I don't use much OOP in my work (nor do I know anything about cryptography!) so 
 - an enigma class to string it all together into one object
 
 
-This is off to a good start already. There are more animations to be added, and more functionality to make it more user-friendly. 
+This is off to a good start already. There are more animations to be added, and more functionality to make it more user-friendly. Brainstorming such features below, in no particular order:
+- Allow users to upload a text file to be encrypted
+- Allow users to save encrypted files 
+- Allow users to export enigma settings with encrypted files 
+- Give users an interface to enter their settings on initialization 
 
 # Resources
 
