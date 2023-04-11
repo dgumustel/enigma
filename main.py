@@ -96,7 +96,7 @@ while animating:
                     # Encipher input
                     PATH, cipher = ENIGMA.encipher(letter)
                     OUTPUT += cipher
-                    print(INPUT)
-                    print(OUTPUT)
-                    print(PATH)
+                    # print(INPUT)
+                    # print(OUTPUT)
+                    # print(PATH)
 
