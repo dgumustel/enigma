@@ -103,7 +103,7 @@ while animating:
     img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, ring_settings)), True, 'grey')
     SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .9))
     
-    img = BOLD.render('Rotor key setting: ' + key_setting, True, 'grey')
+    img = BOLD.render('Rotor key setting:   ' + ' '.join(key_setting), True, 'grey')
     SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .6))
 
     # Draw enigma machine
@@ -130,10 +130,14 @@ while animating:
                     # Encipher input
                     PATH, cipher = ENIGMA.encipher(letter)
                     OUTPUT += cipher
-                    # print(INPUT)
-                    # print(OUTPUT)
-                    # print(PATH)
+
+with open('initialization.txt', 'w') as f:
+    f.write('Enigma initialization: \n')
+    f.write('Plugboard settings: ' + plugboard_settings + '\n')
+    f.write('Rotor selection: ' + ' '.join(map(str, rotor_selection)) + '\n')
+    f.write('Reflector selection: ' + reflector_selection + '\n')
+    f.write('Rotor ring settings: ' + ' '.join(map(str, ring_settings)) + '\n')
+    f.write('Rotor key setting: ' + ' '.join(key_setting))
 
 with open('message.txt', 'w') as f:
     f.write(OUTPUT)
-
