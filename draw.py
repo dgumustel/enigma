@@ -46,4 +46,14 @@ def draw(enigma, path, screen, width, height, margins, gap, font):
         component.draw(screen, x, y, w, h, font)
         x += w + gap
 
+    
     enigma.KB.draw(screen, x, y, w/2, h, font)
+
+    # Add component names
+    names = ['Reflector', 'Left', 'Middle', 'Right', 'Plugboard']
+    for i in range(len(names)):
+        x = margins['left'] + i * w + i * gap + w/2
+        name = font.render(names[i], True, 'grey')
+        text_box = name.get_rect(center = (x, margins['top']*.8))
+        screen.blit(name, text_box)
+

@@ -67,12 +67,12 @@ while animating:
 
     # Display INPUT 
     text = BOLD.render(INPUT, True, 'white')
-    text_box = text.get_rect(center = (WIDTH/2, MARGINS['top']/2))
+    text_box = text.get_rect(center = (WIDTH/2, MARGINS['top']/3))
     SCREEN.blit(text, text_box)
 
     # Display OUTPUT
     text = BOLD.render(OUTPUT, True, 'grey')
-    text_box = text.get_rect(center = (WIDTH/2, 20+MARGINS['top']/2))
+    text_box = text.get_rect(center = (WIDTH/2, 20+MARGINS['top']/3))
     SCREEN.blit(text, text_box)
 
     # Draw enigma machine
@@ -88,6 +88,9 @@ while animating:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
                 I.rotate()
+            elif event.key == pygame.K_SPACE:
+                INPUT = INPUT + ' '
+                OUTPUT = OUTPUT + ' '
             else: 
                 key = event.unicode
                 if key.upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
