@@ -19,10 +19,8 @@ BOLD = pygame.font.SysFont('FreeMono', 20, bold=True)
 # Global vars
 WIDTH = 1200
 HEIGHT = 600
-SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 MARGINS = {'top':100, 'bottom':100, 'left':100, 'right':100}
 GAP = 50
-
 INPUT = ''
 OUTPUT = ''
 PATH = []
@@ -39,26 +37,43 @@ C = Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
 
 # Keyboard and plugboard
 KB = Keyboard()
-PB = Plugboard(['AB', 'CD', 'EF'])
+plugboard_settings = input('Please input your plugboard settings: ')
+PB = Plugboard(plugboard_settings.split())
 
 # Enigma machine
-ENIGMA = Enigma(B, I, II, III, PB, KB)
+'''
+To save the initial state of the machine so that users can decrypt their own messages later, we need to track the following:
+- reflector
+- rotors L, M, R
+- ring settings of each rotor
+- initial key
+- plugboard settings
+
+These should all also be customizable so users can enter these settings upon initialization of the program.
+TODO: implementation in progress, may consider creating a settings.py script responsible for handling user input
+'''
+rotor_selection = input('Please input your rotor selection. Choose from I, II, III, IV, V: ')
+rotor_selection = rotor_selection.split()
+reflector_selection = input('Please input your reflector selection. Choose from A, B, C: ')
+component_options = {'I':I, 'II':II, 'III':III, 'IV':IV, 'V':V, 'A':A, 'B':B, 'C':C}
+
+ENIGMA = Enigma(component_options[reflector_selection], 
+                component_options[rotor_selection[0]],
+                component_options[rotor_selection[1]],
+                component_options[rotor_selection[2]], 
+                PB, KB)
 
 # Set the rings on each rotor
-ENIGMA.set_rings((1, 1, 1))
+ring_settings = input('Please input your ring settings: ')
+ring_settings = [int(i) for i in ring_settings]
+ENIGMA.set_rings(ring_settings)
 
 # Set message key
-ENIGMA.set_key('CAT')
-# ENIGMA.R.show()
+key_setting = input('Please input your key setting: ')
+ENIGMA.set_key(key_setting)
 
-# Encipher message
-# message = 'TESTINGTESTINGTESTINGTESTING'
-# cipher_text = ''
-# for letter in message:
-#     cipher_text += ENIGMA.encipher(letter)
-
-# print(cipher_text)
-
+# Initialize screen once user settings have been inputted 
+SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 animating = True
 while animating:
@@ -74,6 +89,22 @@ while animating:
     text = BOLD.render(OUTPUT, True, 'grey')
     text_box = text.get_rect(center = (WIDTH/2, 20+MARGINS['top']/3))
     SCREEN.blit(text, text_box)
+
+    # Display initialization settings
+    img = BOLD.render('Plugboard settings: ' + plugboard_settings, True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .9))
+
+    img = BOLD.render('Rotor selection: ' + ' '.join(map(str, rotor_selection)), True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .6))
+
+    img = BOLD.render('Reflector selection: ' + reflector_selection, True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .3))
+
+    img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, ring_settings)), True, 'grey')
+    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .9))
+    
+    img = BOLD.render('Rotor key setting: ' + key_setting, True, 'grey')
+    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .6))
 
     # Draw enigma machine
     draw(ENIGMA, PATH,  SCREEN, WIDTH, HEIGHT, MARGINS, GAP, BOLD)
