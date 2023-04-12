@@ -10,24 +10,32 @@ def draw(enigma, path, screen, width, height, margins, gap, font):
 
     # Path coordinates
     y = [margins['top']+(signal+1)*h/27 for signal in path]
-    x = [width-margins['right'] - w/2] # Keyboard
+    x = [width-margins['right'] - w/3] # Keyboard
     # Forward pass
     for i in [4,3,2,1,0]:
-        x.append(margins['left'] + (i+1)*(1+gap)+w*3/4)
-        x.append(margins['left'] + (i+1)*(1+gap)+w*1/4)
+        x.append(margins['left'] + (i * gap) + (i * w) + w*3/4)
+        x.append(margins['left'] + (i * gap) + (i * w) + w*1/4)
     # Backward pass
-    for i in [1,2,3,4]:
-        x.append(margins['left'] + (i+1)*(1+gap)+w*1/4)
-        x.append(margins['left'] + (i+1)*(1+gap)+w*3/4)
-        x.append(width-margins['right']-w/2) # Lampboard
+    for i in [0,1,2,3,4,]:
+        x.append(margins['left'] + (i * gap) + (i * w) + w*3/4)
+        x.append(margins['left'] + (i+1) * gap + (i+1) * w + w*1/4)
+    
+    x.append(width-margins['right']-w/2) # Lampboard
     # Draw the path
-    # print(len(path))
-    c = ['red', 'white', 'blue', 'green', 'white', 'blue', 'green', 'white', 'blue', 'green', 'white', 'blue', 'green', 'white', 'blue', 'green', 'white', 'blue', 'green']
+    print(len(path))
+    print(path)
+    
     if len(path) > 0:
-        for i in range(1, 19):
+        for i in range(1, len(path)):
             start = (x[i-1], y[i-1])
             end = (x[i], y[i])
-            pygame.draw.line(screen, c[i-1], start, end, width=5)
+            if i == 1:
+                c = 'red'
+            elif i <= 10:
+                c = 'white'
+            else:
+                c = 'green'
+            pygame.draw.line(screen, c, start, end, width=5)
 
     # Base coordinates
     x = margins['left']
