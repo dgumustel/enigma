@@ -46,7 +46,7 @@ class Enigma:
             path.extend([signal, signal])
 
         signal = self.U.reflect(signal)
-        path.append(signal)
+        path.extend([signal, signal, signal])
 
         for component in [self.L, self.M, self.R, self.P]:
             signal = component.backward(signal)

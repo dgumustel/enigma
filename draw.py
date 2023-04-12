@@ -16,26 +16,26 @@ def draw(enigma, path, screen, width, height, margins, gap, font):
         x.append(margins['left'] + (i * gap) + (i * w) + w*3/4)
         x.append(margins['left'] + (i * gap) + (i * w) + w*1/4)
     # Backward pass
-    for i in [0,1,2,3,4,]:
+    for i in [0,1,2,3,4]:
         x.append(margins['left'] + (i * gap) + (i * w) + w*3/4)
         x.append(margins['left'] + (i+1) * gap + (i+1) * w + w*1/4)
     
     x.append(width-margins['right']-w/2) # Lampboard
     # Draw the path
-    print(len(path))
-    print(path)
+    # print(len(path))
+    # print(path)
     
     if len(path) > 0:
         for i in range(1, len(path)):
             start = (x[i-1], y[i-1])
             end = (x[i], y[i])
-            if i == 1:
-                c = 'red'
-            elif i <= 10:
-                c = 'white'
+            if i < 10:
+                c = 'teal'
+            elif i in [10, 11]:
+                c = 'gold'
             else:
-                c = 'green'
-            pygame.draw.line(screen, c, start, end, width=5)
+                c = 'red'
+            pygame.draw.line(screen, c, start, end, width=3)
 
     # Base coordinates
     x = margins['left']
