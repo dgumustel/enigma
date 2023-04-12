@@ -103,3 +103,6 @@ while animating:
                     # print(OUTPUT)
                     # print(PATH)
 
+with open('message.txt', 'w') as f:
+    f.write(OUTPUT)
+
