@@ -18,13 +18,7 @@ I don't use much OOP in my work (nor do I know anything about cryptography!) so 
 - an enigma class to string it all together into one object
 - a drawing class responsible for handling the animations
 
-This is off to a good start already. I completed the base design of the machine but would like to add more functionality to make it more interesting and user-friendly. Brainstorming such features below, in no particular order:
-- Allow users to upload a text file to be encrypted
-- Allow users to save encrypted files 
-- Allow users to export enigma settings with encrypted files 
-- Give users an interface to enter their settings on initialization 
-- Rearrange the GUI so that it more closely resembles the original machine design. It'd be cool to have displays for the keyboard, lampboard, and plugboard, and to be able to see the rotors moving with each keypress. 
-- Give users the option to decrypt an encrypted message 
+More improvements to the display and functionality of this program are being tracked under the "Improvements" issue. 
 
 # Resources
 
