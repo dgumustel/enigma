@@ -6,6 +6,8 @@ from rotor import Rotor
 from reflector import Reflector
 from enigma import Enigma
 from draw import draw
+from random import sample
+from settings import initial_state
 
 # Set up pygame
 pygame.init()
@@ -34,43 +36,30 @@ V = Rotor('VZBRGITYUPSDNHLXAWMJQOFECK', 'Z')
 A = Reflector('EJMZALYXVBWFCRQUONTSPIKHGD')
 B = Reflector('YRUHQSLDPXNGOKMIEBFZCWVJAT')
 C = Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
-
-# Keyboard and plugboard
-KB = Keyboard()
-plugboard_settings = input('Please input your plugboard settings: ')
-PB = Plugboard(plugboard_settings.split())
-
-# Enigma machine
-'''
-To save the initial state of the machine so that users can decrypt their own messages later, we need to track the following:
-- reflector
-- rotors L, M, R
-- ring settings of each rotor
-- initial key
-- plugboard settings
-
-These should all also be customizable so users can enter these settings upon initialization of the program.
-TODO: implementation in progress, may consider creating a settings.py script responsible for handling user input
-'''
-rotor_selection = input('Please input your rotor selection. Choose from I, II, III, IV, V: ')
-rotor_selection = rotor_selection.split()
-reflector_selection = input('Please input your reflector selection. Choose from A, B, C: ')
 component_options = {'I':I, 'II':II, 'III':III, 'IV':IV, 'V':V, 'A':A, 'B':B, 'C':C}
 
-ENIGMA = Enigma(component_options[reflector_selection], 
-                component_options[rotor_selection[0]],
-                component_options[rotor_selection[1]],
-                component_options[rotor_selection[2]], 
+plugboard, reflector, rotors, rings, key = initial_state()
+print(key)
+print(' '.join(key))
+
+# Keyboard
+KB = Keyboard()
+
+# Plugboard
+PB = Plugboard(plugboard.split())
+
+# Enigma machine
+ENIGMA = Enigma(component_options[reflector], 
+                component_options[rotors[0]],
+                component_options[rotors[1]],
+                component_options[rotors[2]], 
                 PB, KB)
 
 # Set the rings on each rotor
-ring_settings = input('Please input your ring settings: ')
-ring_settings = [int(i) for i in ring_settings]
-ENIGMA.set_rings(ring_settings)
+ENIGMA.set_rings(rings)
 
 # Set message key
-key_setting = input('Please input your key setting: ')
-ENIGMA.set_key(key_setting)
+ENIGMA.set_key(key)
 
 # Initialize screen once user settings have been inputted 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -91,19 +80,19 @@ while animating:
     SCREEN.blit(text, text_box)
 
     # Display initialization settings
-    img = BOLD.render('Plugboard settings: ' + plugboard_settings, True, 'grey')
+    img = BOLD.render('Plugboard settings: ' + plugboard, True, 'grey')
     SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .9))
 
-    img = BOLD.render('Rotor selection: ' + ' '.join(map(str, rotor_selection)), True, 'grey')
+    img = BOLD.render('Rotor selection: ' + ' '.join(map(str, rotors)), True, 'grey')
     SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .6))
 
-    img = BOLD.render('Reflector selection: ' + reflector_selection, True, 'grey')
+    img = BOLD.render('Reflector selection: ' + reflector, True, 'grey')
     SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .3))
 
-    img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, ring_settings)), True, 'grey')
+    img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, rings)), True, 'grey')
     SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .9))
     
-    img = BOLD.render('Rotor key setting:   ' + ' '.join(key_setting), True, 'grey')
+    img = BOLD.render('Rotor key setting:   ' + ' '.join(key), True, 'grey')
     SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .6))
 
     # Draw enigma machine
@@ -123,9 +112,9 @@ while animating:
                 INPUT = INPUT + ' '
                 OUTPUT = OUTPUT + ' '
             else: 
-                key = event.unicode
-                if key.upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-                    letter = key.upper()
+                key_press = event.unicode
+                if key_press.upper() in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+                    letter = key_press.upper()
                     INPUT += letter
                     # Encipher input
                     PATH, cipher = ENIGMA.encipher(letter)
@@ -133,11 +122,12 @@ while animating:
 
 with open('initialization.txt', 'w') as f:
     f.write('Enigma initialization: \n')
-    f.write('Plugboard settings: ' + plugboard_settings + '\n')
-    f.write('Rotor selection: ' + ' '.join(map(str, rotor_selection)) + '\n')
-    f.write('Reflector selection: ' + reflector_selection + '\n')
-    f.write('Rotor ring settings: ' + ' '.join(map(str, ring_settings)) + '\n')
-    f.write('Rotor key setting: ' + ' '.join(key_setting))
+    f.write('Plugboard settings: ' + plugboard + '\n')
+    f.write('Rotor selection: ' + ' '.join(map(str, rotors)) + '\n')
+    f.write('Reflector selection: ' + reflector + '\n')
+    f.write('Rotor ring settings: ' + ' '.join(map(str, rings)) + '\n')
+    f.write('Rotor key setting: ' + ' '.join(key))
 
 with open('message.txt', 'w') as f:
     f.write(OUTPUT)
+
