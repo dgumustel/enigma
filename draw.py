@@ -1,7 +1,6 @@
 import pygame
 
 def draw(enigma, path, screen, width, height, margins, gap, font):    
-
     
     # Width of individual components:
     w = (width - margins['left'] - margins['right'] - (5 * gap)) / 6 
@@ -57,3 +56,32 @@ def draw(enigma, path, screen, width, height, margins, gap, font):
         text_box = name.get_rect(center = (x, margins['top']*.8))
         screen.blit(name, text_box)
 
+
+def display_messages(BOLD, INPUT, OUTPUT, WIDTH, MARGINS, SCREEN):
+    
+    # Display INPUT 
+    text = BOLD.render(INPUT, True, 'white')
+    text_box = text.get_rect(center = (WIDTH/2, MARGINS['top']/3))
+    SCREEN.blit(text, text_box)
+
+    # Display OUTPUT
+    text = BOLD.render(OUTPUT, True, 'grey')
+    text_box = text.get_rect(center = (WIDTH/2, 20+MARGINS['top']/3))
+    SCREEN.blit(text, text_box)
+
+def display_settings(BOLD, SCREEN, WIDTH, HEIGHT, MARGINS, plugboard, rotors, reflector, rings, key):
+    # Display initialization settings
+    img = BOLD.render('Plugboard settings: ' + plugboard, True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .9))
+
+    img = BOLD.render('Rotor selection: ' + ' '.join(map(str, rotors)), True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .6))
+
+    img = BOLD.render('Reflector selection: ' + reflector, True, 'grey')
+    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .3))
+
+    img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, rings)), True, 'grey')
+    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .9))
+    
+    img = BOLD.render('Rotor key setting:   ' + ' '.join(key), True, 'grey')
+    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .6))

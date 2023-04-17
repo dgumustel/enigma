@@ -5,7 +5,7 @@ from plugboard import Plugboard
 from rotor import Rotor
 from reflector import Reflector
 from enigma import Enigma
-from draw import draw
+from draw import draw, display_messages, display_settings
 from random import sample
 from settings import initial_state
 
@@ -36,11 +36,8 @@ V = Rotor('VZBRGITYUPSDNHLXAWMJQOFECK', 'Z')
 A = Reflector('EJMZALYXVBWFCRQUONTSPIKHGD')
 B = Reflector('YRUHQSLDPXNGOKMIEBFZCWVJAT')
 C = Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
-component_options = {'I':I, 'II':II, 'III':III, 'IV':IV, 'V':V, 'A':A, 'B':B, 'C':C}
 
 plugboard, reflector, rotors, rings, key = initial_state()
-print(key)
-print(' '.join(key))
 
 # Keyboard
 KB = Keyboard()
@@ -49,10 +46,10 @@ KB = Keyboard()
 PB = Plugboard(plugboard.split())
 
 # Enigma machine
-ENIGMA = Enigma(component_options[reflector], 
-                component_options[rotors[0]],
-                component_options[rotors[1]],
-                component_options[rotors[2]], 
+ENIGMA = Enigma(eval(reflector), 
+                eval(rotors[0]),
+                eval(rotors[1]),
+                eval(rotors[2]), 
                 PB, KB)
 
 # Set the rings on each rotor
@@ -69,31 +66,9 @@ while animating:
     # Background 
     SCREEN.fill('#333333')
 
-    # Display INPUT 
-    text = BOLD.render(INPUT, True, 'white')
-    text_box = text.get_rect(center = (WIDTH/2, MARGINS['top']/3))
-    SCREEN.blit(text, text_box)
-
-    # Display OUTPUT
-    text = BOLD.render(OUTPUT, True, 'grey')
-    text_box = text.get_rect(center = (WIDTH/2, 20+MARGINS['top']/3))
-    SCREEN.blit(text, text_box)
-
-    # Display initialization settings
-    img = BOLD.render('Plugboard settings: ' + plugboard, True, 'grey')
-    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .9))
-
-    img = BOLD.render('Rotor selection: ' + ' '.join(map(str, rotors)), True, 'grey')
-    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .6))
-
-    img = BOLD.render('Reflector selection: ' + reflector, True, 'grey')
-    SCREEN.blit(img, (MARGINS['left'], HEIGHT - MARGINS['bottom'] * .3))
-
-    img = BOLD.render('Rotor ring settings: ' + ' '.join(map(str, rings)), True, 'grey')
-    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .9))
-    
-    img = BOLD.render('Rotor key setting:   ' + ' '.join(key), True, 'grey')
-    SCREEN.blit(img, (WIDTH*.65, HEIGHT - MARGINS['bottom'] * .6))
+    # Display input/output text and machine settings
+    display_messages(BOLD, INPUT, OUTPUT, WIDTH, MARGINS, SCREEN)
+    display_settings(BOLD, SCREEN, WIDTH, HEIGHT, MARGINS, plugboard, rotors, reflector, rings, key)
 
     # Draw enigma machine
     draw(ENIGMA, PATH,  SCREEN, WIDTH, HEIGHT, MARGINS, GAP, BOLD)
@@ -120,6 +95,7 @@ while animating:
                     PATH, cipher = ENIGMA.encipher(letter)
                     OUTPUT += cipher
 
+# Write machine settings and output to text files
 with open('initialization.txt', 'w') as f:
     f.write('Enigma initialization: \n')
     f.write('Plugboard settings: ' + plugboard + '\n')
