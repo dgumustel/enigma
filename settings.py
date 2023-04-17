@@ -34,7 +34,7 @@ def initial_state(manual_entry = input('Would you like to input settings? If not
         reflector_selection = input('Please input your reflector selection. Choose from A, B, C: ')
         
         ring_settings = input('Please input your ring settings: ')
-        ring_settings = list(map(int, ring_settings.split()))
+        ring_settings = ring_settings.split()
 
         key_setting = input('Please input your key setting: ')
         key_setting = key_setting.split()

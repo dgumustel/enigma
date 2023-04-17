@@ -9,6 +9,7 @@ class Enigma:
         self.KB = KB
 
     def set_rings(self, rings):
+        rings = list(map(int, rings))
         self.L.set_ring(rings[0])
         self.M.set_ring(rings[1])
         self.R.set_ring(rings[2])
