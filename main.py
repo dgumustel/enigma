@@ -6,7 +6,6 @@ from rotor import Rotor
 from reflector import Reflector
 from enigma import Enigma
 from draw import draw, display_messages, display_settings
-from random import sample
 from settings import initial_state
 
 # Set up pygame
@@ -97,12 +96,11 @@ while animating:
 
 # Write machine settings and output to text files
 with open('initialization.txt', 'w') as f:
-    f.write('Enigma initialization: \n')
-    f.write('Plugboard settings: ' + plugboard + '\n')
-    f.write('Rotor selection: ' + ' '.join(map(str, rotors)) + '\n')
-    f.write('Reflector selection: ' + reflector + '\n')
-    f.write('Rotor ring settings: ' + ' '.join(map(str, rings)) + '\n')
-    f.write('Rotor key setting: ' + ' '.join(key))
+    f.write(plugboard + '\n')
+    f.write(' '.join(map(str, rotors)) + '\n')
+    f.write(reflector + '\n')
+    f.write(' '.join(map(str, rings)) + '\n')
+    f.write(' '.join(key))
 
 with open('message.txt', 'w') as f:
     f.write(OUTPUT)
