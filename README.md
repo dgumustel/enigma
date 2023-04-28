@@ -20,7 +20,7 @@ I don't use much OOP in my work (nor do I know anything about cryptography!) so 
 
 I also added a settings script for handling user input of the initial state of the machine on launch; if a user declines manually setting this, an initial state is randomly generated. An additional script for handling the encryption/decryption of text files may also be added. 
 
-More improvements to the display and functionality of this program are being tracked under the "Improvements" issue. 
+More improvements to the display and functionality of this program are being tracked under the ["Improvements" issue](https://github.com/dgumustel/enigma/issues/1). 
 
 # Resources
 
