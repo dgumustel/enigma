@@ -1,4 +1,4 @@
-import pygame
+import pygame 
 
 def draw(enigma, path, screen, width, height, margins, gap, font):    
     
